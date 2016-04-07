@@ -24,6 +24,29 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
 
   var root, states = {}, $state, queue = {}, abstractKey = 'abstract';
 
+  var copyAngular = angular.copy;
+
+  var copy = function(src, dest){
+    var prop;
+
+    if(!dest) {
+      return;
+    } else {
+      //clean out dest first
+      if(dest){
+        for(prop in dest) {
+          delete dest[prop];
+        }
+      }
+
+      if(src) {
+        for(prop in src) {
+          dest[prop] = src[prop];//for complex objects copy by reference, do not do a deep copy as ui-router does by default
+        }
+      }
+    }
+  }
+
   // Builds state properties from definition passed to registerState()
   var stateBuilder = {
 
